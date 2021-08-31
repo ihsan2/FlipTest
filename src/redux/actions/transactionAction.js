@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {formatDate, formatRupiah} from '../../helpers';
 
 export const getTranscations = ({refreshing = false} = {}) => {
   return (dispatch, getState) => {
@@ -107,11 +108,39 @@ export const sortTransactions = sort => {
   };
 };
 
-export const setDetailTransactions = data => {
-  return (dispatch, getState) => {
+export const setDetailTransactions = item => {
+  return dispatch => {
+    const info = [
+      {
+        key: item?.beneficiary_name,
+        value: item?.account_number,
+      },
+      {
+        key: 'Nominal',
+        value: formatRupiah(item?.amount),
+      },
+      {
+        key: 'Berita Transfer',
+        value: item?.remark,
+      },
+      {
+        key: 'Kode Unik',
+        value: item?.unique_code,
+      },
+      {
+        key: 'Waktu Dibuat',
+        value: formatDate(item?.created_at, 'long'),
+      },
+    ];
+    let detail = {
+      id: item?.id,
+      beneficiary_bank: item?.beneficiary_bank,
+      sender_bank: item?.sender_bank,
+      info,
+    };
     dispatch({
       type: 'SET_DETAIL_TRANSACTION',
-      detail: data,
+      detail,
     });
   };
 };

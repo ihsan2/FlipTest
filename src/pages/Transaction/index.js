@@ -16,7 +16,6 @@ import {
   sortTransactions,
 } from '../../redux/actions/transactionAction';
 import * as colors from '../../theme/colors';
-import {formatDate, formatRupiah} from '../../helpers';
 
 let dataSort = [
   {
@@ -66,36 +65,7 @@ const index = ({navigation}) => {
   };
 
   const _detail = item => {
-    console.log(item);
-    const info = [
-      {
-        key: item?.beneficiary_name,
-        value: item?.account_number,
-      },
-      {
-        key: 'Nominal',
-        value: formatRupiah(item?.amount),
-      },
-      {
-        key: 'Berita Transfer',
-        value: item?.remark,
-      },
-      {
-        key: 'Kode Unik',
-        value: item?.unique_code,
-      },
-      {
-        key: 'Waktu Dibuat',
-        value: formatDate(item?.created_at, 'long'),
-      },
-    ];
-    let detail = {
-      id: item?.id,
-      beneficiary_bank: item?.beneficiary_bank,
-      sender_bank: item?.sender_bank,
-      info,
-    };
-    dispatch(setDetailTransactions(detail));
+    dispatch(setDetailTransactions(item));
     navigation.navigate('Detail');
   };
 
